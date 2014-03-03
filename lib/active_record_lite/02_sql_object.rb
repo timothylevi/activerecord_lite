@@ -9,15 +9,15 @@ class MassObject
 end
 
 class SQLObject < MassObject
-  def self.columns
-    # ...
-  end
-
   def self.table_name=(table_name)
-    # ...
+    @table_name = table_name
   end
 
   def self.table_name
+    @table_name ||= self.name.underscore.pluralize
+  end
+
+  def self.columns
     # ...
   end
 
