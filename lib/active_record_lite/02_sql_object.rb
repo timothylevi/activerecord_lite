@@ -61,12 +61,8 @@ class SQLObject < MassObject
     SQL
   end
 
-  def attributes
-    # ...
-  end
-
   def save
-    # ...
+    id.nil? ? insert : update
   end
 
   def attribute_values
