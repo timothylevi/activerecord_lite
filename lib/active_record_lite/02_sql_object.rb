@@ -19,10 +19,6 @@ class SQLObject < MassObject
     @table_name ||= self.name.underscore.pluralize
   end
 
-  def self.columns
-    # ...
-  end
-
   def self.all
     results = DBConnection.execute(<<-SQL)
     SELECT #{table_name}.*
@@ -66,10 +62,6 @@ class SQLObject < MassObject
   end
 
   def attributes
-    # ...
-  end
-
-  def initialize
     # ...
   end
 
