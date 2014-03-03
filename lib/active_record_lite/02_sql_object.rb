@@ -4,7 +4,9 @@ require 'active_support/inflector'
 
 class MassObject
   def self.parse_all(results)
-    # ...
+    results.map do |hash|
+      self.new(hash)
+    end
   end
 end
 
@@ -22,7 +24,12 @@ class SQLObject < MassObject
   end
 
   def self.all
-    # ...
+    results = DBConnection.execute(<<-SQL)
+    SELECT #{table_name}.*
+    FROM #{table_name}
+    SQL
+
+    parse_all(results)
   end
 
   def self.find(id)
