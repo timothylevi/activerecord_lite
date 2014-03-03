@@ -49,7 +49,16 @@ end
 module Associatable
 
   def belongs_to(name, options = {})
+    options = BelongsToOptions.new(name, options)
+    self.assoc_options[name] = options
 
+    define_method(name) do
+      key_val = self.send(options.foreign_key)
+      options
+      .model_class
+      .where(options.primary_key => key_val)
+      .first
+    end
   end
 
   def has_many(name, options = {})
@@ -62,5 +71,5 @@ module Associatable
 end
 
 class SQLObject
-
+  extend Associatable
 end
