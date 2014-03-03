@@ -33,7 +33,15 @@ end
 
 class HasManyOptions < AssocOptions
   def initialize(name, self_class_name, options = {})
+    defaults = {
+      :class_name => name.to_s.singularize.camelcase,
+      :foreign_key => "#{self_class_name.underscore}_id".to_sym,
+      :primary_key => :id
+    }
 
+    defaults.keys.each do |key|
+      self.send("#{key}=", options[key] || defaults[key])
+    end
   end
 end
 
