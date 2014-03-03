@@ -42,11 +42,20 @@ class SQLObject < MassObject
     parse_all(results).first
   end
 
-  def attributes
-    # ...
+  def insert
+    col_names = self.class.attributes.join(", ")
+    question_marks = (["?"] * self.class.attributes.count).join(", ")
+
+    DBConnection.execute(<<-SQL, *attribute_values)
+    INSERT INTO #{self.class.table_name} (#{col_names})
+    VALUES (#{question_marks})
+    SQL
+
+    self.id = DBConnection.last_insert_row_id
   end
 
-  def insert
+
+  def attributes
     # ...
   end
 
